@@ -26,6 +26,7 @@ app.use((req, res) => {
       </Provider>
     );
     const componentHTML = React.renderToString(InitialComponent);
+    const initialState = store.getState();
 
     const HTML = `
     <!DOCTYPE html>
@@ -36,6 +37,9 @@ app.use((req, res) => {
       </head>
       <body>
         <div id="react-view">${componentHTML}</div>
+        <script>
+          window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
+        </script>
         <script type="application/javascript" src="/app.js"></script>
       </body>
     </html>
