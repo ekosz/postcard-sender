@@ -1,6 +1,6 @@
 import { Model } from 'falcor';
 
-const initialState = new Model({
+export default new Model({
   cache: {
     postcardsById: {
       '1': {
@@ -16,7 +16,3 @@ const initialState = new Model({
     ]
   }
 });
-
-export default function(state = initialState, action) {
-  return state;
-}

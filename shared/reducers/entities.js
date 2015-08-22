@@ -1,18 +1,14 @@
-var tree = {
-  "postcardsById": {
-    "1": {
-      "id": 1,
-      "name": "Something"
-    }
-  },
-  "deliverysById": {
-    "1": {
-      {}
-    }
+import Immutable from 'immutable';
+
+import { RETRIEVE_PATH } from '../actions/falcor';
+
+const initialState = Immutable.Map({});
+
+export default function(state = initialState, action) {
+  switch(action.type) {
+    case RETRIEVE_PATH:
+      return state.mergeDeep(action.res.json);
+    default:
+      return state
   }
 }
-
-export default function(state, action) {
-  return state;
-}
-

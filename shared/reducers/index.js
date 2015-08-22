@@ -1,1 +1,1 @@
-export { default as falcor } from './falcor';
+export { default as entities } from './entities';
