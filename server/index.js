@@ -4,8 +4,8 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import Location from 'react-router/lib/Location';
-import routes from './shared/routes';
-import * as reducers from './shared/reducers';
+import routes from '../shared/routes';
+import * as reducers from '../shared/reducers';
 
 const app = express();
 
