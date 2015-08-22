@@ -16,10 +16,10 @@ class Root extends Component {
 
     if (!postcards) {
       output = <h1>Loading...</h1>;
-    } else if (!postcards[0]) {
+    } else if (!postcards.get("0")) {
       output = <h1>No Postcards created yet</h1>;
     } else {
-      output = <ul>{postcards.map(card => { return <li>{card.name}</li> })}</ul>;
+      output = <ul>{postcards.map(card => { return <li>{card.get("name")}</li> })}</ul>;
     }
 
     return output;
@@ -28,7 +28,7 @@ class Root extends Component {
 
 function mapStateToProps(state) {
   return {
-    postcards: state.entities.postcards
+    postcards: state.entities.get('postcards')
   };
 }
 
