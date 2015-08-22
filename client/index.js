@@ -4,8 +4,10 @@ import promiseMiddleware from '../shared/middleware/promise';
 import { Provider } from 'react-redux';
 import { devTools, persistState } from 'redux-devtools';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
+import { Router }  from 'react-router';
+import { history } from 'react-router/lib/BrowserHistory';
+import routes from '../shared/routes';
 import * as reducers from '../shared/reducers';
-import Root from '../shared/components';
 
 const reducer = combineReducers(reducers);
 
@@ -21,7 +23,7 @@ const store = finalCreateStore(reducer);
 React.render(
   <div>
     <Provider store={store}>
-      {() => <Root />}
+      {() => <Router children={routes} history={history} />}
     </Provider>
     <DebugPanel top right bottom>
       <DevTools store={store} monitor={LogMonitor} />
