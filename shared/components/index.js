@@ -1,9 +1,18 @@
-import React, { Component } from 'react';
-import Postcards from './postcards';
+import React, { Component, PropTypes } from 'react';
+import Sidemenu from './side-menu';
 
 class Root extends Component {
+  static propTypes = {
+    children: PropTypes.element,
+  }
+
   render() {
-    return <Postcards />;
+    return (
+      <div>
+        <Sidemenu />
+        {this.props.children}
+      </div>
+    );
   }
 }
 

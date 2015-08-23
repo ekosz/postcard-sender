@@ -1,10 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { retrievePath } from '../actions/falcor';
+import React, { Component, PropTypes } from 'react';
+import Postcard from './postcard';
 
-class Postcards extends Component {
+export default class Postcards extends Component {
+  static propTypes = {
+    retrievePath: PropTypes.func.isRequired,
+    postcards: PropTypes.object,
+  };
+
   componentDidMount() {
-    this.props.retrievePath('postcards[0..2].["id", "name"]');
+    const { retrievePath } = this.props;
+
+    retrievePath('postcards[0..2].["id", "name"]');
   }
 
   render() {
@@ -17,17 +23,17 @@ class Postcards extends Component {
     } else if (!postcards.get('0')) {
       output = <h1>No Postcards created yet</h1>;
     } else {
-      output = <ul>{postcards.map(card => { return <li>{card.get('name')}</li>; })}</ul>;
+      output = this._renderPostcards(postcards);
     }
 
     return output;
   }
-}
 
-function mapStateToProps(state) {
-  return {
-    postcards: state.entities.get('postcards'),
-  };
+  _renderPostcards(postcards) {
+    return (
+      <div>{postcards.map(card =>
+        <Postcard key={card.get('id')} {...card.toJS()} />
+      )}</div>
+    );
+  }
 }
-
-export default connect(mapStateToProps, { retrievePath })(Postcards);
