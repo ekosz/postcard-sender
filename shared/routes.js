@@ -3,6 +3,5 @@ import { Route } from 'react-router';
 import Root from './components';
 
 export default (
-  <Route name="root" component={Root} path="/">
-  </Route>
+  <Route name="root" component={Root} path="/" />
 );

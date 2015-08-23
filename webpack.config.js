@@ -1,6 +1,6 @@
 var getConfig = require('hjs-webpack');
 
-module.exports = getConfig({
+var config = getConfig({
   // entry point for the app
   in: './client',
 
@@ -37,3 +37,9 @@ module.exports = getConfig({
   }
 
 });
+
+config.module.preLoaders = [
+  {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
+];
+
+module.exports = config;

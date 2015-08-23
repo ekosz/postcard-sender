@@ -4,9 +4,7 @@ import { retrievePath } from '../actions/falcor';
 
 class Postcards extends Component {
   componentDidMount() {
-    const { retrievePath } = this.props;
-
-    retrievePath(['postcards', 0, 'name']);
+    this.props.retrievePath(['postcards', 0, 'name']);
   }
 
   render() {
@@ -16,10 +14,10 @@ class Postcards extends Component {
 
     if (!postcards) {
       output = <h1>Loading...</h1>;
-    } else if (!postcards.get("0")) {
+    } else if (!postcards.get('0')) {
       output = <h1>No Postcards created yet</h1>;
     } else {
-      output = <ul>{postcards.map(card => { return <li>{card.get("name")}</li> })}</ul>;
+      output = <ul>{postcards.map(card => { return <li>{card.get('name')}</li>; })}</ul>;
     }
 
     return output;
@@ -28,7 +26,7 @@ class Postcards extends Component {
 
 function mapStateToProps(state) {
   return {
-    postcards: state.entities.get('postcards')
+    postcards: state.entities.get('postcards'),
   };
 }
 

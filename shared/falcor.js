@@ -5,7 +5,7 @@ export default new Model({
   source: new HttpDataSource('/model.json'),
   cache: {
     postcards: [
-      { $type: 'ref', value: ['postcardsById', '1'] }
-    ]
-  }
+      { $type: 'ref', value: ['postcardsById', '1'] },
+    ],
+  },
 });

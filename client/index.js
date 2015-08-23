@@ -18,7 +18,7 @@ Object
   .keys(initialState)
   .forEach(key => {
     initialState[key] = fromJS(initialState[key]);
-   });
+  });
 
 const reducer = combineReducers(reducers);
 
