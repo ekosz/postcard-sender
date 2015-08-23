@@ -1,3 +1,5 @@
+import db from './db'
+
 const records = {
   1: {
     id: 1,
@@ -10,15 +12,27 @@ const records = {
 export default {
   get: function(ids) {
     return new Promise(function(good, bad) {
-      good(records);
+      db.then((client, done) => {
+        client.query('SELECT * FROM postcards WHERE id = ANY($1::int[])', [ids], (err, result) => {
+          if(err) { bad(err); return false; }
+
+          good(result.rows.reduce((acc, row) => { acc[row.id] = row; return acc }, {}));
+          return true;
+        });
+      });
     });
   },
 
   all: function() {
     return new Promise(function(good, bad) {
-      let result = [];
-      Object.keys(records).forEach(key => result.push(records[key]));
-      good(result);
+      db.then((client, done) => {
+        client.query('SELECT * FROM postcards', (err, result) => {
+          if(err) { bad(err); return false; }
+
+          good(result.rows);
+          return true;
+        });
+      });
     });
   }
 };

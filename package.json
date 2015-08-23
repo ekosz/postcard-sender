@@ -27,6 +27,7 @@
     "immutable": "^3.7.4",
     "json-loader": "^0.5.2",
     "object-assign": "^3.0.0",
+    "pg": "^4.4.1",
     "postcss-loader": "^0.6.0",
     "react": "^0.13.3",
     "react-hot-loader": "^1.2.8",
