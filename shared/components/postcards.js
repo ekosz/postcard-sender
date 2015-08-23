@@ -4,7 +4,7 @@ import { retrievePath } from '../actions/falcor';
 
 class Postcards extends Component {
   componentDidMount() {
-    this.props.retrievePath(['postcards', 0, 'name']);
+    this.props.retrievePath('postcards[0].name');
   }
 
   render() {

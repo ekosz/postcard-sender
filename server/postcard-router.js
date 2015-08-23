@@ -24,5 +24,27 @@ export default Router.createClass([
         return { jsonGraph };
       });
     }
+  },
+  {
+    route: 'postcards[{integers:indices}].name',
+    get: function(pathSet) {
+      return postcardService.all().then(records => {
+        return pathSet.indices.map(index => {
+          let record = records[index];
+
+          if (!record) {
+            return {
+              path: ['postcards', index],
+              value: null
+            }
+          }
+
+          return {
+            path: ['postcards', index, 'name'],
+            value: record.name,
+          }
+        })
+      });
+    }
   }
 ]);

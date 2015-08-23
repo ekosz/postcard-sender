@@ -1,4 +1,4 @@
-const postcardsById = {
+const records = {
   1: {
     id: 1,
     name: 'Missing you from Alaska',
@@ -10,8 +10,15 @@ const postcardsById = {
 export default {
   get: function(ids) {
     return new Promise(function(good, bad) {
-      good(postcardsById);
+      good(records);
+    });
+  },
+
+  all: function() {
+    return new Promise(function(good, bad) {
+      let result = [];
+      Object.keys(records).forEach(key => result.push(records[key]));
+      good(result);
     });
   }
 };
-
