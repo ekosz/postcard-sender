@@ -26,6 +26,28 @@ export default Router.createClass([
     }
   },
   {
+    route: 'postcards[{integers:indices}]',
+    get: function(pathSet) {
+      return postcardService.all().then(records => {
+        return pathSet.indices.map(index => {
+          let record = records[index];
+
+          if (!record) {
+            return {
+              path: ['postcards', index],
+              value: null
+            }
+          }
+
+          return {
+            path: ['postcards', index],
+            value: jsong.ref(['postcardsById', record.id])
+          }
+        })
+      });
+    }
+  },
+  {
     route: 'postcards[{integers:indices}].name',
     get: function(pathSet) {
       return postcardService.all().then(records => {
