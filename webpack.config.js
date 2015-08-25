@@ -1,27 +1,44 @@
-var getConfig = require('hjs-webpack');
+var path = require('path');
+var webpack = require('webpack')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-var config = getConfig({
-  // entry point for the app
-  in: './client',
+var isDev = (process.argv[1] || '').indexOf('webpack-dev-server') !== -1;
+var entry = path.resolve('./client');
+var hostname = process.env.HOSTNAME || 'localhost';
+var port = Number(process.env.DEVPORT || 8080);
+var urlLoaderLimit = Number(process.env.URLLOADERLIMIT || 10000);
 
-  // Name or full path of output directory
-  // commonly named `www` or `public`. This
-  // is where your fully static site should
-  // end up for simple deployment.
-  out: 'dist',
+var output = {
+  path: path.join(__dirname, '/dist/'),
+  filename: 'app.js',
+  publicPath: '/dist/'
+};
 
-  // This will destroy and re-create your
-  // `out` folder before building so you always
-  // get a fresh folder. Usually you want this
-  // but since it's destructive we make it
-  // false by default
-  clearBeforeBuild: true,
+var defaultLoaders = [
+  {
+    test: /\.json$/,
+    exclude: /node_modules/,
+    loader: 'json'
+  },
+  {
+    test: /\.(otf|eot|svg|ttf|woff)/,
+    loader: 'url-loader?limit=' + urlLoaderLimit
+  }, {
+    test: /\.(jpe?g|png|gif)/,
+    loader: 'url-loader?limit=' + urlLoaderLimit
+  }
+];
 
-  // Let the server generate this for us
-  html: false,
+var devConfig = {
+  devtool: 'eval-source-map',
 
-  // Asset server port
-  port: 8080,
+  entry: [
+    entry,
+    'webpack-dev-server/client?http://' + hostname + ':' + port,
+    'webpack/hot/only-dev-server'
+  ],
+
+  output: output,
 
   devServer: {
     proxy: {
@@ -29,17 +46,67 @@ var config = getConfig({
     }
   },
 
-  resolve: {
-    alias: {
-      // Workaround https://github.com/Reactive-Extensions/RxJS/issues/832, until it's fixed
-      // 'rx$': <path to rx/dist/rx.js file >
-    }
-  }
+  module: {
+    preLoaders: [{
+      test: /\.js$/,
+      exclude: /node_modules/,
+      loader: "eslint-loader"
+    }],
+    loaders: [{
+      test: /\.js$/,
+      exclude: /node_modules/,
+      loader: 'react-hot!babel-loader',
+    }, {
+      test: /\.css$/,
+      exclude: /node_modules/,
+      loader: 'style-loader!css-loader!postcss-loader'
+    }].concat(defaultLoaders)
+  },
 
-});
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')}
+    })
+  ]
+}
 
-config.module.preLoaders = [
-  {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
-];
+var prodConfig = {
+  entry: [ entry ],
 
-module.exports = config;
+  output: output,
+
+  module: {
+    loaders: [{
+      test: /\.js$/,
+      exclude: /node_modules/,
+      loader: 'babel-loader',
+    }, {
+      test: /\.css$/,
+      loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader')
+    }].concat(defaultLoaders)
+  },
+
+  plugins: [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(true),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      output: {
+        comments: false
+      },
+      sourceMap: false
+    }),
+    new ExtractTextPlugin('[name].css', {
+      allChunks: true
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {NODE_ENV: JSON.stringify('production')}
+    })
+  ]
+}
+
+module.exports = isDev ? devConfig : prodConfig;

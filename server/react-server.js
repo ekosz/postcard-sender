@@ -37,7 +37,7 @@ export default function(req, res) {
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
         </script>
-        <script type="application/javascript" src="/app.js"></script>
+        <script type="application/javascript" src="/dist/app.js"></script>
       </body>
     </html>
     `;
