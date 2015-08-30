@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class SideMenu extends Component {
+const propTypes = {
+  className: PropTypes.string,
+};
+
+class SideMenu extends Component {
 
   _renderLinks(links) {
     return links.map(link => {
@@ -13,7 +17,11 @@ export default class SideMenu extends Component {
       { name: 'Home', src: '/' },
     ];
 
-    return <div>{this._renderLinks(links)}</div>;
+    return <div className={this.props.className}>{this._renderLinks(links)}</div>;
   }
 
 }
+
+SideMenu.propTypes = propTypes;
+
+export default SideMenu;

@@ -1,6 +1,6 @@
 var path = require('path');
-var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var isDev = (process.argv[1] || '').indexOf('webpack-dev-server') !== -1;
 var entry = path.resolve('./client');
@@ -30,7 +30,7 @@ var defaultLoaders = [
 ];
 
 var devConfig = {
-  devtool: 'eval-source-map',
+  devtool: 'eval',
 
   entry: [
     entry,
@@ -59,11 +59,14 @@ var devConfig = {
     }, {
       test: /\.css$/,
       exclude: /node_modules/,
-      loader: 'style-loader!css-loader!postcss-loader'
+      loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!cssnext-loader')
     }].concat(defaultLoaders)
   },
 
   plugins: [
+    new ExtractTextPlugin('app.css', {
+      allChunks: true
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({

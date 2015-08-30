@@ -1,3 +1,4 @@
+import fs from 'fs';
 import React from 'react';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
@@ -5,6 +6,9 @@ import { Router } from 'react-router';
 import Location from 'react-router/lib/Location';
 import routes from '../shared/routes';
 import * as reducers from '../shared/reducers';
+
+const criticalCSS = fs.readFileSync('./node_modules/basscss/css/basscss.min.css', 'utf8');
+const loadCSS = fs.readFileSync('./server/loadCSS.js', 'utf8');
 
 export default function(req, res) {
   const location = new Location(req.path, req.query);
@@ -31,6 +35,11 @@ export default function(req, res) {
       <head>
         <meta charset="utf-8">
         <title>Postcards</title>
+        <style>${criticalCSS}</style>
+        <script>
+          ${loadCSS}
+           loadCSS("/dist/app.css");
+        </script>
       </head>
       <body>
         <div id="react-view">${componentHTML}</div>
