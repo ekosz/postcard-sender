@@ -10,7 +10,7 @@ export default class Postcards extends Component {
   componentDidMount() {
     const { retrievePath } = this.props;
 
-    retrievePath('postcards[0..2].["id", "name"]');
+    retrievePath('postcards[0..2].["id", "name", "fronthtml", "backhtml"]');
   }
 
   render() {
@@ -31,9 +31,9 @@ export default class Postcards extends Component {
 
   _renderPostcards(postcards) {
     return (
-      <div>{postcards.map(card =>
-        <Postcard key={card.get('id')} {...card.toJS()} />
-      )}</div>
+      <div className="flex flex-column">
+        { postcards.map(card => <Postcard key={card.get('id')} {...card.toJS()} />) }
+      </div>
     );
   }
 }

@@ -4,7 +4,7 @@ import postcardService from './postcard-service';
 
 export default Router.createClass([
   {
-    route: 'postcardsById[{integers:ids}]["id", "name", "frontHtml", "backHtml"]',
+    route: 'postcardsById[{integers:ids}]["id", "name", "fronthtml", "backhtml"]',
     get: function(pathSet) {
       return postcardService.get(pathSet.ids).then(postcards => {
         let jsonGraph = {},
