@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Sidemenu from '../side-menu';
+import Sidemenu from '../SideMenu';
 import cssModules from 'react-css-modules';
 
 const styles = require('./styles.css');

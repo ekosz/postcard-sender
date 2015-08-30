@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { retrievePath } from '../actions/falcor';
-import Postcards from '../components/postcards';
+import Postcards from '../components/Postcards';
 
 class PostcardsContainer extends Component {
   static propTypes = {

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Postcard from './postcard';
+import Postcard from '../Postcard';
 
 export default class Postcards extends Component {
   static propTypes = {
