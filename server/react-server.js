@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { minify } from 'html-minifier';
 import React from 'react';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
@@ -51,6 +52,6 @@ export default function(req, res) {
     </html>
     `;
 
-    res.end(HTML);
+    res.end(minify(HTML, {collapseWhitespace: true, minifyJS: true}));
   });
 }
